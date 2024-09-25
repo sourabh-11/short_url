@@ -2,9 +2,22 @@ const express   = require("express")
 const app = express();
 const path = require('path')
 const port  = 8001;
-const  urlRoute = require('./routes/url') 
-const  staticRoute = require('./routes/staticRouter') 
+ 
 const URL = require('./models/url')
+
+
+const  urlRoute = require('./routes/url') 
+const  staticRoute = require('./routes/staticRouter')
+const userRoute = require('./routes/user')
+
+
+
+
+
+
+
+
+
 const { ConnectToMongoose } = require('./connect')
 
 ConnectToMongoose('mongodb://127.0.0.1:27017/lala_5')
@@ -12,8 +25,14 @@ ConnectToMongoose('mongodb://127.0.0.1:27017/lala_5')
     console.log("mongo db connect ");
 })
 
+
+
+
+
 app.set('view engine',"ejs")
 app.set('views',path.resolve("./views"))
+
+
 
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
@@ -21,14 +40,10 @@ app.use(express.urlencoded({extended:false}))
 
 app.use('/url', urlRoute)
 app.use('/', staticRoute)
+app.use('/user', userRoute)
 
 
-app.get('/test', async(req,res)=>{
-    const allurls = await URL.find({})
-    return res.render("home",{
-        urls: allurls,
-    })
-})
+
 
 
 
